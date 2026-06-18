@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Run Sheet — Long Island Guys' Day · Sat Jun 27</title>
+<meta name="description" content="Clays, karts and cold ones. A full Saturday on Long Island — skeet, indoor racing, food and drinks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#15171B;
+    --tarmac:#1D2027;
+    --tarmac-hi:#23262E;
+    --pitline:#2E323B;
+    --clay:#FF5A1F;
+    --clay-dim:#C8420F;
+    --go:#3FD27E;
+    --bone:#EAE8E2;
+    --smoke:#8A909C;
+    --flag:#FFFFFF;
+    --disp:"Saira Condensed",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--asphalt);
+    color:var(--bone);
+    font-family:var(--body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 18% 0%, rgba(255,90,31,0.07), transparent 42%),
+      radial-gradient(circle at 88% 12%, rgba(63,210,126,0.04), transparent 40%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+
+  /* top timing strip */
+  .strip{
+    height:6px;width:100%;
+    background:repeating-linear-gradient(90deg,var(--clay) 0 22px,var(--asphalt) 22px 30px);
+    opacity:.9;
+  }
+
+  /* header */
+  header{padding:38px 0 30px}
+  .meta-row{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--smoke);
+  }
+  .meta-row .tag{color:var(--clay)}
+  .kicker{
+    font-family:var(--mono);font-size:13px;letter-spacing:.34em;
+    text-transform:uppercase;color:var(--smoke);margin:26px 0 6px;
+  }
+  h1{
+    font-family:var(--disp);font-weight:800;
+    font-size:clamp(52px,15vw,104px);line-height:.86;
+    letter-spacing:-.01em;text-transform:uppercase;color:var(--flag);
+  }
+  h1 .period{color:var(--clay)}
+  .sub{
+    margin-top:18px;max-width:46ch;color:var(--smoke);
+    font-size:15.5px;
+  }
+  .crew{
+    display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;
+  }
+  .chip{
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+    color:var(--bone);background:var(--tarmac);
+    border:1px solid var(--pitline);border-radius:2px;
+    padding:7px 11px;
+  }
+  .chip b{color:var(--clay);font-weight:600}
+
+  /* run sheet */
+  .sheet-head{
+    display:flex;align-items:center;gap:14px;
+    margin:44px 0 6px;
+  }
+  .sheet-head h2{
+    font-family:var(--disp);font-weight:700;font-size:22px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--bone);white-space:nowrap;
+  }
+  .sheet-head .rule{height:1px;background:var(--pitline);flex:1}
+  .sheet-head .count{font-family:var(--mono);font-size:12px;color:var(--smoke);letter-spacing:.1em}
+
+  .session{
+    display:grid;grid-template-columns:96px 1fr;gap:0;
+    position:relative;
+    opacity:0;transform:translateY(14px);
+    animation:rise .5s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .session .time{
+    padding:22px 16px 22px 0;text-align:right;position:relative;
+  }
+  .time .clock{
+    font-family:var(--disp);font-weight:700;font-size:30px;line-height:1;
+    color:var(--bone);
+  }
+  .time .ampm{font-family:var(--mono);font-size:11px;color:var(--smoke);letter-spacing:.12em}
+  /* pit lane connector */
+  .session .time::after{
+    content:"";position:absolute;top:30px;bottom:-2px;right:-1px;width:2px;
+    background:var(--pitline);
+  }
+  .session:last-of-type .time::after{display:none}
+  .node{
+    position:absolute;right:-6px;top:26px;width:11px;height:11px;border-radius:50%;
+    background:var(--asphalt);border:2px solid var(--clay);z-index:2;
+  }
+  .session.depart .node{border-color:var(--smoke)}
+
+  .card{
+    margin:14px 0 14px 22px;padding:20px 20px 22px;
+    background:var(--tarmac);border:1px solid var(--pitline);border-radius:5px;
+    transition:border-color .2s ease,transform .2s ease,background .2s ease;
+  }
+  .card:hover{border-color:var(--clay-dim);transform:translateY(-2px);background:var(--tarmac-hi)}
+  .eyebrow{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--clay);margin-bottom:9px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow .stars{color:var(--smoke);letter-spacing:.04em}
+  .card h3{
+    font-family:var(--disp);font-weight:700;font-size:27px;line-height:1;
+    text-transform:uppercase;color:var(--flag);letter-spacing:.005em;
+  }
+  .card .what{margin-top:9px;color:var(--bone);font-size:14.5px;max-width:52ch}
+  .card .data{
+    margin-top:15px;display:flex;flex-direction:column;gap:5px;
+    font-family:var(--mono);font-size:12.5px;color:var(--smoke);
+  }
+  .card .data span b{color:var(--bone);font-weight:500}
+  .actions{margin-top:16px;display:flex;flex-wrap:wrap;gap:9px}
+  .btn{
+    font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+    text-decoration:none;padding:9px 14px;border-radius:3px;
+    border:1px solid var(--pitline);color:var(--bone);
+    transition:all .18s ease;white-space:nowrap;
+  }
+  .btn:hover{border-color:var(--bone)}
+  .btn.primary{background:var(--clay);border-color:var(--clay);color:#1A0E07;font-weight:600}
+  .btn.primary:hover{background:#ff6d39;border-color:#ff6d39}
+
+  .depart .card{background:transparent;border-style:dashed;border-color:var(--pitline)}
+  .depart .card:hover{transform:none;border-color:var(--smoke)}
+  .depart h3{font-size:21px;color:var(--bone)}
+
+  /* steward notes */
+  .notes{
+    margin:46px 0 0;padding:26px 24px;
+    background:var(--tarmac);border:1px solid var(--pitline);border-radius:5px;
+    border-left:3px solid var(--clay);
+  }
+  .notes .eyebrow{margin-bottom:16px}
+  .note{display:flex;gap:13px;padding:11px 0;border-top:1px solid var(--pitline)}
+  .note:first-of-type{border-top:none;padding-top:0}
+  .note .idx{font-family:var(--mono);font-size:12px;color:var(--clay);padding-top:2px}
+  .note p{font-size:14.5px;color:var(--bone)}
+  .note p b{color:var(--flag);font-weight:500}
+
+  footer{
+    padding:40px 0 56px;margin-top:40px;
+    border-top:1px solid var(--pitline);
+    font-family:var(--mono);font-size:12px;color:var(--smoke);
+    letter-spacing:.08em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .session:nth-of-type(1){animation-delay:.05s}
+  .session:nth-of-type(2){animation-delay:.13s}
+  .session:nth-of-type(3){animation-delay:.21s}
+  .session:nth-of-type(4){animation-delay:.29s}
+  .session:nth-of-type(5){animation-delay:.37s}
+
+  @media (max-width:560px){
+    .session{grid-template-columns:1fr}
+    .session .time{text-align:left;padding:18px 0 0;display:flex;align-items:baseline;gap:8px}
+    .time .clock{font-size:26px}
+    .session .time::after{display:none}
+    .node{display:none}
+    .card{margin-left:0;margin-top:10px}
+    h1{font-size:clamp(46px,16vw,80px)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .session{animation:none;opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<div class="strip"></div>
+<div class="wrap">
+
+  <header>
+    <div class="meta-row">
+      <span><span class="tag">●</span> Run Sheet</span>
+      <span>Sat · Jun 27 · 2026</span>
+    </div>
+    <div class="kicker">Long Island Guys' Day</div>
+    <h1>Clays<span class="period">.</span> Karts<span class="period">.</span> Cold Ones<span class="period">.</span></h1>
+    <p class="sub">One Saturday, three drivers, east to west across the Island. Shoot sharp in the morning, race in the afternoon, settle the score over dinner.</p>
+    <div class="crew">
+      <span class="chip"><b>3</b> drivers</span>
+      <span class="chip">Start <b>·</b> Islip, NY</span>
+      <span class="chip">Finish <b>·</b> Farmingdale</span>
+    </div>
+  </header>
+
+  <div class="sheet-head">
+    <h2>The Schedule</h2>
+    <div class="rule"></div>
+    <div class="count">5 STOPS</div>
+  </div>
+
+  <!-- DEPART -->
+  <div class="session depart">
+    <div class="time">
+      <div class="node"></div>
+      <span class="clock">9:30</span> <span class="ampm">AM</span>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Depart</div>
+      <h3>Roll out of Islip</h3>
+      <p class="what">Head east on the LIE toward Ridge — about a 35–40 minute run. Coffee's allowed; beers are not (yet).</p>
+    </div>
+  </div>
+
+  <!-- S01 -->
+  <div class="session">
+    <div class="time">
+      <div class="node"></div>
+      <span class="clock">10:00</span> <span class="ampm">AM</span>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Session 01 · Range <span class="stars">— 4.9 ★</span></div>
+      <h3>Long Island TopShots</h3>
+      <p class="what">A fully guided trap &amp; skeet session — guns and shells included. The instructor gets even first-timers breaking clays by the end. Plan on about two hours.</p>
+      <div class="data">
+        <span>📍 <b>725 Middle Country Rd, Ridge, NY 11961</b></span>
+        <span>☎ <b>(631) 445-8400</b> — reservation required</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://skeetshootingbachelorparty.com/" target="_blank" rel="noopener">Book the range ↗</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Long+Island+TopShots+Trap+Skeet+725+Middle+Country+Rd+Ridge+NY" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- S02 -->
+  <div class="session">
+    <div class="time">
+      <div class="node"></div>
+      <span class="clock">1:00</span> <span class="ampm">PM</span>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Session 02 · Fuel</div>
+      <h3>Tap Room</h3>
+      <p class="what">Back west into downtown Farmingdale. Solid pub food — the short rib ravioli gets the loudest reviews — and a place to reset before the track.</p>
+      <div class="data">
+        <span>📍 <b>206 Main St, Farmingdale, NY 11735</b></span>
+        <span>☎ <b>(516) 586-8880</b></span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://taproomofny.com/locations/farmingdale/" target="_blank" rel="noopener">Menu ↗</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Tap+Room+206+Main+St+Farmingdale+NY" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- S03 -->
+  <div class="session">
+    <div class="time">
+      <div class="node"></div>
+      <span class="clock">2:30</span> <span class="ampm">PM</span>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Session 03 · Track <span class="stars">— 4.5 ★</span></div>
+      <h3>RPM Raceway</h3>
+      <p class="what">Indoor electric karts, wheel to wheel. Book a multi-race package ahead so you each get a qualifier and a final with a real leaderboard. Huge arcade if you want overtime.</p>
+      <div class="data">
+        <span>📍 <b>40 Daniel St, Farmingdale, NY 11735</b></span>
+        <span>☎ <b>(631) 752-7223</b> — book races online</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://www.rpmraceway.com/long-island-ny/" target="_blank" rel="noopener">Book races ↗</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=RPM+Raceway+40+Daniel+St+Farmingdale+NY" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- S04 -->
+  <div class="session">
+    <div class="time">
+      <div class="node"></div>
+      <span class="clock">5:00</span> <span class="ampm">PM</span>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Session 04 · Paddock <span class="stars">— 4.3 ★</span></div>
+      <h3>The Main Event</h3>
+      <p class="what">A massive sports bar two minutes from the track — TVs everywhere, big plates, full bar. The right room to crown the day's racing champ.</p>
+      <div class="data">
+        <span>📍 <b>1815 Broadhollow Rd #6, Farmingdale, NY 11735</b></span>
+        <span>☎ <b>(631) 522-1030</b></span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="http://themaineventny.com/" target="_blank" rel="noopener">See the bar ↗</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=The+Main+Event+1815+Broadhollow+Rd+Farmingdale+NY" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEWARD NOTES -->
+  <div class="notes">
+    <div class="eyebrow">Race Control — Read First</div>
+    <div class="note">
+      <div class="idx">01</div>
+      <p><b>Clays before beers.</b> The shooting is first on purpose — no range will let you shoot once you've had a drink. Hold the cold ones for the back half.</p>
+    </div>
+    <div class="note">
+      <div class="idx">02</div>
+      <p><b>Lock the bookings this week.</b> Both TopShots and RPM run on reservations, and June 27 is a Saturday. Call now so the day doesn't fall apart at the door.</p>
+    </div>
+    <div class="note">
+      <div class="idx">03</div>
+      <p><b>Sort the ride home.</b> The day ends on drinks in Farmingdale. Pick a designated driver or line one up before you head out.</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>Long Island · Jun 27 2026</span>
+    <span>3 drivers · 1 leaderboard</span>
+  </footer>
+
+</div>
+</body>
+</html>
